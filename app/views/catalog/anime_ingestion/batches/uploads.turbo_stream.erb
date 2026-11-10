@@ -1,0 +1,40 @@
+
+<%= turbo_stream.update "uploads" do %>
+  <% if @file_name.present? %>
+    <div class="container mt-5">
+      <h3 class="title is-3">Anime Batch Preview</h3>
+    <% if @headers.present? %>
+      <p class="subtitle is-6 has-text-grey">
+        Showing a preview of the first <%= @rows.size %> rows from your CSV file.
+      </p>
+
+      <div class="table-container" style="max-height: 600px; overflow-y: auto;">
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+          <thead>
+            <tr>
+              <% @headers.each do |header| %>
+                <th><%= header %></th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @rows.each do |row| %>
+              <tr>
+                <% @headers.each do |header| %>
+                  <td><%= row[header] %></td>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="notification is-warning">
+        No data found or file could not be read.
+      </div>
+    <% end %>
+    </div>
+  <% else %>
+    <p style="color: red">Please choose a file.</p>
+  <% end %>
+<% end %>

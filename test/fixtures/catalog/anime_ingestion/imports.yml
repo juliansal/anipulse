@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+_fixture:
+  model_class: Catalog::AnimeIngestion::Import
+
+one:
+  batch: one
+  status: completed
+  records_imported: 2
+  records_failed: 0
+  row_errors:
+
+two:
+  batch: two
+  status: completed
+  records_imported: 1
+  records_failed: 1
+  row_errors:

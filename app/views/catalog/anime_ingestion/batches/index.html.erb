@@ -1,0 +1,32 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Anime ingestion batches" %>
+
+<section class="section">
+  <h1 class="title">Anime ingestion batches</h1>
+
+  <div id="catalog_anime_ingestion_batches">
+    <% @catalog_anime_ingestion_batches.each do |catalog_anime_ingestion_batch| %>
+      <div class="box">
+        <%= render catalog_anime_ingestion_batch %>
+        
+        <div class="buttons">
+          <%= link_to "Show this anime ingestion batch", 
+            catalog_anime_ingestion_batch, 
+            class: "button is-info is-dark" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <br/>
+</section>
+
+<section class="section">
+  <div class="buttons">
+    <%= link_to "New anime ingestion batch", 
+          new_catalog_anime_ingestion_batch_path,
+          class: "button is-info is-dark" %>
+  </div>
+</section>
+

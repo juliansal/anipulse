@@ -1,0 +1,15 @@
+<% content_for :title, "New anime ingestion batch" %>
+
+<section class="section">
+  <h1 class="title">New anime ingestion batch</h1>
+
+  <%= render "form", catalog_anime_ingestion_batch: @catalog_anime_ingestion_batch %>
+  <div id="uploads"></div>
+  <br>
+
+  <div>
+    <%= link_to "Back to anime ingestion batches", 
+      catalog_anime_ingestion_batches_path,
+      class: "button is-link is-dark" %>
+  </div>
+</section>

@@ -1,0 +1,39 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+_fixture:
+  model_class: Catalog::Anime
+
+one:
+  anime_id: 1
+  name: 'Cowboy Bebop'
+  english_name: MyString
+  other_name: MyString
+  score: 9.99
+  genres: MyString
+  synopsis: MyText
+  media_type: MyString
+  episodes: 1
+  aired: MyString
+  premiered: MyString
+  status: MyString
+  producers: MyString
+  studios: MyString
+  popularity: 1
+  image_url: MyString
+
+two:
+  anime_id: 5114
+  name: 'Fullmetal Alchemist'
+  english_name: MyString
+  other_name: MyString
+  score: 9.99
+  genres: MyString
+  synopsis: MyText
+  media_type: MyString
+  episodes: 1
+  aired: MyString
+  premiered: MyString
+  status: MyString
+  producers: MyString
+  studios: MyString
+  popularity: 1
+  image_url: MyString

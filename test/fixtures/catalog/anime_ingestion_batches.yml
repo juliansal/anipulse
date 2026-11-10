@@ -1,0 +1,20 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+_fixture:
+  model_class: Catalog::AnimeIngestion::Batch
+
+one:
+  file_name: MyString
+  source: file_upload
+  status: pending
+  records_processed: 1
+  records_failed: 1
+  error_log: MyString
+
+two:
+  file_name: MyString
+  source: file_upload
+  status: pending
+  records_processed: 1
+  records_failed: 1
+  error_log: MyString

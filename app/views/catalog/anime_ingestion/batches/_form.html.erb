@@ -1,0 +1,46 @@
+
+<%= form_with(model: catalog_anime_ingestion_batch) do |form| %>
+  <% if catalog_anime_ingestion_batch.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(catalog_anime_ingestion_batch.errors.count, "error") %> prohibited this catalog_anime_ingestion_batch from being saved:</h2>
+
+      <ul>
+        <% catalog_anime_ingestion_batch.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field" data-controller="file-upload">
+    <%= form.label :csv_file, "Upload Anime Batch File (CSV or JSON)", class: "file-label" %>
+    <div class="file has-name is-dark is-boxed">
+      <label class="file-label">
+        <%= form.file_field :csv_file, 
+          accept: ".csv,.json", 
+          class: "file-input", 
+          data: {
+            file_upload_target: "input",
+            action: "change->file-upload#update"
+          },
+          id: "anime-file-input",
+          required: true %>
+        <span class="file-cta">
+          <span class="file-icon">
+            <i class="fas fa-upload"></i>
+          </span>
+          <span class="file-label"> Choose a file… </span>
+        </span>
+        <span class="file-name" id="anime-file-name" data-file-upload-target="name">
+          No file chosen
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <div>
+    <%= form.button "Preview Batch",
+      formaction: uploads_catalog_anime_ingestion_batches_path, class: "button is-info is-dark" %>
+    <%= form.submit "Upload File", class: "button is-primary is-dark" %>
+  </div>
+<% end %>
