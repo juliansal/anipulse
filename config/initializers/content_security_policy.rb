@@ -12,7 +12,7 @@
 #     policy.object_src  :none
 #     policy.script_src  :self, :https
 
-    # You may need to enable this in production as well depending on your setup.
+#     # You may need to enable this in production as well depending on your setup.
 #    policy.script_src *policy.script_src, :blob if Rails.env.test?
 
 #     policy.style_src   :self, :https
