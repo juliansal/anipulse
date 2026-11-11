@@ -25,12 +25,12 @@ class Catalog::AnimeIngestion::BatchesController < ApplicationController
       if @catalog_anime_ingestion_batch.save
         format.html { redirect_to @catalog_anime_ingestion_batch, notice: "CSV uploaded and batch created" }
         format.json { render :show, status: :created, location: @catalog_anime_ingestion_batch }
+
+        Catalog::AnimeIngestion::ProcessBatchJob.perform_later(@catalog_anime_ingestion_batch)
       else
         format.html { render :new, status: :unprocessable_content }
         format.json { render json: @catalog_anime_ingestion_batch.errors, status: :unprocessable_content }
       end
-
-      Catalog::AnimeIngestion::ProcessBatchJob.perform_later(@catalog_anime_ingestion_batch)
     end
   end
 

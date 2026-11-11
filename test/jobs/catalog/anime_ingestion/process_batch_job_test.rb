@@ -1,7 +1,7 @@
 require "test_helper"
 
 class Catalog::AnimeIngestion::ProcessBatchJobTest < ActiveJob::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  assert_broadcast_on(Turbo.signed_stream_id(batch), action: :replace) do
+    Catalog::AnimeIngestion::ProcessBatchJob.perform_now(batch)
+  end
 end

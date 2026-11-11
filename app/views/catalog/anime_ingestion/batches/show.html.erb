@@ -4,6 +4,8 @@
   <%= render @catalog_anime_ingestion_batch %>
 </section>
 
+<%= turbo_stream_from @catalog_anime_ingestion_batch %>
+
 <section class="section">
   <div class="buttons">
     <%= link_to "Back to anime ingestion batches", 

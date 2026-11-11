@@ -17,6 +17,7 @@ class Catalog::AnimeIngestion::ProcessBatch
 
   def call
     @batch.update!(status: :processing)
+    broadcast_batch_update
     reset_import!
 
     @batch.csv_file.open do |file|
@@ -24,6 +25,7 @@ class Catalog::AnimeIngestion::ProcessBatch
     end
 
     finalize(:completed)
+
   rescue StandardError => e
     finalize(:failed, e.message)
     raise
@@ -40,10 +42,17 @@ class Catalog::AnimeIngestion::ProcessBatch
   end
 
   def process_rows(file)
-    CSV.foreach(file, headers: true, liberal_parsing: true).with_index(2) do |row, line_number|
-      validate_headers!(row.headers) if line_number == 2
-      import_row(row, line_number)
+    Catalog::Anime.transaction do
+      CSV.foreach(file, headers: true, liberal_parsing: true).with_index(2) do |row, line_number|
+        validate_headers!(row.headers) if line_number == 2
+        import_row(row, line_number)
+      end
     end
+  rescue StandardError
+    @imported = 0
+    @failed = 0
+    @row_errors = {}
+    raise
   end
 
   def validate_headers!(raw_headers)
@@ -63,7 +72,7 @@ class Catalog::AnimeIngestion::ProcessBatch
     anime.save!
 
     @imported += 1
-  rescue ActiveRecord::RecordInvalid => e
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
     @failed += 1
     store_row_error(line_number, e)
   end
@@ -90,5 +99,15 @@ class Catalog::AnimeIngestion::ProcessBatch
       error_log: error
     )
     @batch.save!
+    broadcast_batch_update
+  end
+
+  def broadcast_batch_update
+    @batch.broadcast_replace_to(
+      @batch,
+      target: @batch,
+      partial: "catalog/anime_ingestion/batches/batch",
+      locals: { batch: @batch }
+    )
   end
 end
