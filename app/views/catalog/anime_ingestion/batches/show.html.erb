@@ -6,6 +6,16 @@
 
 <%= turbo_stream_from @catalog_anime_ingestion_batch %>
 
+<div>
+  <%= button_to "Preview Batch", 
+    uploads_catalog_anime_ingestion_batches_path, 
+    params: { batch_id: @catalog_anime_ingestion_batch.id },
+    class: "button is-info is-dark" %>
+</div>
+
+<div id="uploads"></div>
+<br>
+
 <section class="section">
   <div class="buttons">
     <%= link_to "Back to anime ingestion batches", 

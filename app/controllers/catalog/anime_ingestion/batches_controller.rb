@@ -35,13 +35,24 @@ class Catalog::AnimeIngestion::BatchesController < ApplicationController
   end
 
   def uploads
-    @uploaded_file = params.dig(:catalog_anime_ingestion_batch, :csv_file)
-    @file_name = @uploaded_file != nil ? @uploaded_file.original_filename : ""
     @headers = nil
     @rows = []
+    @file_name = ""
 
-    if @uploaded_file.present?
-      CSV.foreach(@uploaded_file.path, headers: true, liberal_parsing: true).first(10).each do |row|
+    dig = params.dig(:catalog_anime_ingestion_batch, :csv_file)
+    batch = Catalog::AnimeIngestion::Batch.find(params[:batch_id]) if params[:batch_id].present?
+
+    csv_content =
+      if dig.present?
+        @file_name = dig.original_filename
+        File.read(dig.path)
+      elsif batch&.csv_file&.attached?
+        @file_name = batch.csv_file.filename.to_s
+        batch.csv_file.download
+      end
+
+    if csv_content.present?
+      CSV.parse(csv_content, headers: true, liberal_parsing: true).first(10).each do |row|
         @headers ||= row.headers
         @rows << row
       end
