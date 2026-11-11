@@ -41,4 +41,19 @@ class Catalog::AnimeIngestion::BatchesControllerTest < ActionDispatch::Integrati
 
     assert_redirected_to catalog_anime_ingestion_batches_url
   end
+
+  test "should create catalog_anime_ingestion_batch and enqueue processing" do
+    assert_enqueued_with(job: Catalog::AnimeIngestion::ProcessBatchJob) do
+      assert_difference("Catalog::AnimeIngestion::Batch.count") do
+        post catalog_anime_ingestion_batches_url, params: {
+          catalog_anime_ingestion_batch: {
+            source: "file_upload",
+            csv_file: fixture_file_upload("anime_batches.csv", "text/csv")
+          }
+        }
+      end
+    end
+
+    assert_redirected_to catalog_anime_ingestion_batch_url(Catalog::AnimeIngestion::Batch.last)
+  end
 end

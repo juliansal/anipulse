@@ -3,7 +3,10 @@ module Catalog
     class Batch < ApplicationRecord
       self.table_name = "catalog_anime_ingestion_batches"
 
-      has_one :import, dependent: :destroy
+      has_one :import,
+        class_name: "Catalog::AnimeIngestion::Import",
+        foreign_key: :anime_ingestion_batch_id,
+        dependent: :destroy
       has_one_attached :csv_file
 
       validates :csv_file, attached: true
